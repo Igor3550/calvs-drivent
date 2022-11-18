@@ -1,4 +1,5 @@
 import ticketRepository from "@/repositories/ticket-repository";
+import enrollmentRepository from "@/repositories/enrollment-repository";
 import { TicketType } from "@/protocols";
 import { notFoundError } from "@/errors";
 
@@ -7,7 +8,7 @@ async function getTicketsTypes(): Promise<TicketType[]> {
   return types;
 }
 
-export async function getTicketByUserId(userId: number) {
+async function getTicketByUserId(userId: number) {
   const ticket = await ticketRepository.findTicketByUserId(userId);
   if(!ticket) throw notFoundError();
   if(!ticket.Ticket[0]) throw notFoundError();
@@ -25,9 +26,17 @@ export async function getTicketByUserId(userId: number) {
   return returnTicket;
 }
 
+async function createTicket(userId: number, ticketTypeId: number) {
+  const enrollment = await enrollmentRepository.findWithAddressByUserId(userId);
+  if(!enrollment) throw notFoundError();
+  await ticketRepository.insertTicket(enrollment.id, ticketTypeId);
+  return await getTicketByUserId(userId);
+}
+
 const ticketService = {
   getTicketsTypes,
-  getTicketByUserId
+  getTicketByUserId,
+  createTicket
 };
 
 export default ticketService;
