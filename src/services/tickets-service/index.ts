@@ -8,6 +8,10 @@ async function getTicketsTypes(): Promise<TicketType[]> {
   return types;
 }
 
+async function getTicketById(ticketId: number) {
+  return await ticketRepository.findTicketById(ticketId);
+}
+
 async function getTicketByUserId(userId: number) {
   const ticket = await ticketRepository.findTicketByUserId(userId);
   if(!ticket) throw notFoundError();
@@ -36,7 +40,8 @@ async function createTicket(userId: number, ticketTypeId: number) {
 const ticketService = {
   getTicketsTypes,
   getTicketByUserId,
-  createTicket
+  createTicket,
+  getTicketById
 };
 
 export default ticketService;
