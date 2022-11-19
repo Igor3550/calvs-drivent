@@ -1,6 +1,6 @@
 import { NextFunction, Response } from "express";
 import { AuthenticatedRequest } from "@/middlewares";
-import httpStatus, { UNAUTHORIZED } from "http-status";
+import httpStatus from "http-status";
 import { createPaymentSchema } from "@/schemas";
 import ticketService from "@/services/tickets-service";
 import { Payment } from "@/protocols";
