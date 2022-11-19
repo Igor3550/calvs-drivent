@@ -1,4 +1,5 @@
 import { prisma } from "@/config";
+import { Ticket } from "@/protocols";
 import { TicketStatus } from "@prisma/client";
 
 async function findTicketsTypes() {
@@ -11,8 +12,9 @@ async function findTicketById(ticketId: number) {
       id: ticketId
     },
     include: {
-      Enrollment: true
-    }
+      Enrollment: true,
+      TicketType: true
+    },
   });
 }
 
@@ -31,7 +33,7 @@ async function findTicketByUserId(userId: number) {
   });
 }
 
-async function insertTicket(enrollmentId: number, ticketTypeId: number) {
+async function insertTicket(enrollmentId: number=undefined, ticketTypeId: number=undefined, ticketId: number=undefined) {
   return prisma.ticket.create({
     data: {
       enrollmentId,

@@ -49,3 +49,26 @@ export type Ticket = {
   createdAt: Date,
   updatedAt: Date,
 }
+
+type CardData = {
+  issuer: string,
+  number: number,
+  name: string,
+  expirationDate: Date | string,
+  cvv: number
+}
+
+export type Payment = {
+  ticketId: number,
+  cardData: CardData
+}
+
+export type PaymentEntity = {
+  id?: number,
+  ticketId: number,
+  value: number,
+  cardIssuer: string, // VISA | MASTERCARD
+  cardLastDigits: string,
+  createdAt?: Date,
+  updatedAt?: Date
+}
